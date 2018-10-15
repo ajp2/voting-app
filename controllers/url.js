@@ -1,5 +1,5 @@
 exports.displayPolls = (req, res) => {
-  res.send("here are all the polls");
+  res.render("home");
 };
 
 exports.displayOne = (req, res) => {
