@@ -1,19 +1,21 @@
 const router = require("express").Router();
-
-router.get("/login", (req, res) => {
-  res.send("auth");
-});
+const passport = require("passport");
 
 router.get("/logout", (req, res) => {
-  res.send("auth");
+  // handle with passport
+  req.logout();
+  res.redirect("/");
 });
 
-router.get("/twitter", (req, res) => {
-  res.send("auth");
-});
+router.get(
+  "/google",
+  passport.authenticate("google", {
+    scope: ["profile"]
+  })
+);
 
-router.get("/twitter/redirect", (req, res) => {
-  res.send("auth");
+router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
+  res.redirect("/polls");
 });
 
 module.exports = router;

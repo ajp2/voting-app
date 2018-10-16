@@ -1,5 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const passport = require("passport");
+const cookieSession = require("cookie-session");
+const passportSetup = require("./config/passportSetup");
 const errorHandler = require("./controllers/error");
 const keys = require("./config/keys");
 const pollRoutes = require("./routes/polls");
@@ -12,6 +15,17 @@ const port = process.env.PORT || 5000;
 app.set("view engine", "ejs");
 
 app.use(express.static("public"));
+
+app.use(
+  cookieSession({
+    maxAge: 24 * 60 * 60 * 1000,
+    keys: [keys.session.cookieKey]
+  })
+);
+
+// Initialise passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Connect to mongodb
 mongoose

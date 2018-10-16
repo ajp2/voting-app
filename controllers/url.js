@@ -1,9 +1,9 @@
 exports.displayPolls = (req, res) => {
-  res.render("home");
+  res.render("home", { user: req.user });
 };
 
 exports.displayOne = (req, res) => {
-  res.send("here are all the polls");
+  res.render("poll", { pollName: req.params.id });
 };
 
 exports.myPolls = (req, res) => {
