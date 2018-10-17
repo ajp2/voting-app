@@ -7,18 +7,18 @@
   <br>
 
   <div class="card w-75">
-    <form class="card-body">
+    <form class="card-body" action="/newpoll" method="POST">
       <div class="form-group">
         <label for="name">Name:</label>
-        <input type="text" class="form-control" id="name" placeholder="e.g. Favourite Colour">
+        <input type="text" class="form-control" name="name" placeholder="e.g. Favourite Colour">
       </div>
       <br>
 
-      <div class="form-group">
+      <div class="form-group input-options">
         <label>Poll Options:</label>
-        <input type="text" class="form-control options" placeholder="e.g. Green">
+        <input type="text" class="form-control options" name="options" placeholder="Green">
         <br>
-        <input type="text" class="form-control options" placeholder="e.g. Blue">
+        <input type="text" class="form-control options" name="options" placeholder="Blue">
       </div>
       <a class="btn-more text-body" href="#">+</a>
       <br><br>

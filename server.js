@@ -16,6 +16,9 @@ app.set("view engine", "ejs");
 
 app.use(express.static("public"));
 
+// Parsing middleware
+app.use(express.urlencoded({ extended: false }));
+
 app.use(
   cookieSession({
     maxAge: 24 * 60 * 60 * 1000,
@@ -39,6 +42,7 @@ mongoose
   .catch(err => {
     console.log("Error connecting to the database: " + err);
   });
+mongoose.Promise = global.Promise;
 
 // Define routes here
 app.use(pollRoutes);
