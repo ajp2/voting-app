@@ -3,7 +3,7 @@ exports.displayPolls = (req, res) => {
 };
 
 exports.displayOne = (req, res) => {
-  res.render("poll", { pollName: req.params.id });
+  res.render("poll", { user: req.user, pollName: req.params.id });
 };
 
 exports.myPolls = (req, res) => {
@@ -11,5 +11,5 @@ exports.myPolls = (req, res) => {
 };
 
 exports.create = (req, res) => {
-  res.send("create a new poll here");
+  res.render("createPoll", { user: req.user });
 };

@@ -1,11 +1,16 @@
 .google-btn {
   color: #fff;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 15px;
   padding: 10px;
   background: #ff5353;
+  height: 2.5rem;
 }
 
-body {
-  background-color: green;
+.btn-more {
+  font-size: 25px;
+}
+
+.btn-more:hover {
+  text-decoration: none;
 }
