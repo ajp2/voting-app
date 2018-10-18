@@ -3,11 +3,16 @@
 <div class="container">
   <br>
   <h1>
-    <%= pollName %>
+    <%= currentPoll.title %>
   </h1>
   <hr>
   <br>
-  <p>results</p>
+  <p>Results:</p>
+  <% currentPoll.options.forEach(option => { %>
+  <p>
+    <%= option.option %>
+  </p>
+  <% }); %>
 </div>
 
 <% include ./footer %>

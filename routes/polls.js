@@ -8,20 +8,27 @@ router.get("/", (req, res) => {
   res.redirect("/polls");
 });
 
-router.get("/polls", (req, res) => {
-  console.log(req.user);
-  res.render("home", { user: req.user });
+router.get("/polls", async (req, res) => {
+  const allPolls = await Poll.find({}, "id title").sort({ createdAt: -1 });
+  res.render("home", { user: req.user, allPolls: allPolls });
 });
 
-router.get("/polls/:id", (req, res) => {
-  res.render("poll", { user: req.user, pollName: req.params.id });
+router.get("/polls/:pollId", async (req, res) => {
+  try {
+    const currentPoll = await Poll.findById(req.params.pollId);
+    res.render("poll", { user: req.user, currentPoll: currentPoll });
+  } catch (err) {
+    res.send({ message: err });
+  }
 });
 
-router.get("/mypolls", (req, res) => {
-  User.find({ id: req.user.id }, "userPolls", function(err, polls) {
-    console.log(polls);
+router.get("/mypolls", async (req, res) => {
+  // find polls that have the same user id as the current user and sort by most recent
+  const polls = await Poll.find({ user: req.user.id }, "id title").sort({
+    createdAt: -1
   });
-  res.render("myPolls", { user: req.user });
+
+  res.render("myPolls", { user: req.user, polls: polls });
 });
 
 router
@@ -29,26 +36,20 @@ router
     res.render("createPoll", { user: req.user });
   })
   .post("/newpoll", (req, res) => {
+    // get values from input fields
     let optionsArr = req.body.options.map(option => {
       return { option: option, value: 0 };
     });
     let poll = {
       title: req.body.name,
+      user: req.user.id,
       options: optionsArr
     };
 
-    Poll.create(poll)
-      .then(newPoll => {
-        User.findOneAndUpdate(
-          { _id: req.user.id },
-          { $push: { userPolls: newPoll.id } }
-        ).then(() => {
-          res.redirect("/polls");
-        });
-      })
-      .catch(err => {
-        res.send({ messag: err || "Error saving poll to db" });
-      });
+    // save the new poll to the db
+    Poll.create(poll).then(() => {
+      res.redirect("/polls");
+    });
   });
 
 module.exports = router;
