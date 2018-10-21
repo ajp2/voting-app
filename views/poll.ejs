@@ -7,12 +7,74 @@
   </h1>
   <hr>
   <br>
-  <p>Results:</p>
-  <% currentPoll.options.forEach(option => { %>
-  <p>
-    <%= option.option %>
-  </p>
-  <% }); %>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <form action="/polls/vote/<%= currentPoll.id %>" method="POST" class="card-body">
+          <div class="form-group vote">
+            <select class="custom-select" id="select-vote" name="select-vote" required>
+              <option value="" disabled selected hidden>Choose an option</option>
+              <% currentPoll.options.forEach(option => { %>
+              <option value="<%= option.option %>">
+                <%= option.option %>
+              </option>
+              <% }); %>
+              <% if (user) { %>
+              <option value="new">Choose another option...</option>
+              <% } %>
+            </select>
+            <br>
+          </div>
+          <input type="text" id="add-option" class="form-control options" name="add-option" placeholder="Add an option"
+            autocomplete="off" hidden>
+          <br>
+          <button class="btn btn-primary" type="submit">Vote</button>
+        </form>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card">
+        <div id="myChart"></div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+
+<script>
+  zingchart.render({
+    id: 'myChart',
+    data: {
+      "type": "bar",
+      "title": {
+        "text": "Change me please!"
+      },
+      "plot": {
+        "value-box": {
+          "text": "%v"
+        },
+        "tooltip": {
+          "text": "%v"
+        }
+      },
+      "scale-x": {
+        "values": [
+          "Mon",
+          "Wed",
+          "Fri"
+        ]
+      },
+      "series": [
+        {
+          "values": [3, 6, 9],
+          "text": "apples"
+        },
+      ]
+    }
+  });
+</script>
+
+
 
 <% include ./footer %>

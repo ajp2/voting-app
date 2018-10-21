@@ -45,7 +45,7 @@ mongoose
 mongoose.Promise = global.Promise;
 
 // Define routes here
-app.use(pollRoutes);
+app.use("/", pollRoutes);
 app.use("/auth", authRoutes);
 
 // Error handler

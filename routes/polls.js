@@ -14,12 +14,8 @@ router.get("/polls", async (req, res) => {
 });
 
 router.get("/polls/:pollId", async (req, res) => {
-  try {
-    const currentPoll = await Poll.findById(req.params.pollId);
-    res.render("poll", { user: req.user, currentPoll: currentPoll });
-  } catch (err) {
-    res.send({ message: err });
-  }
+  const currentPoll = await Poll.findById(req.params.pollId);
+  res.render("poll", { user: req.user, currentPoll: currentPoll });
 });
 
 router.get("/mypolls", async (req, res) => {
@@ -38,7 +34,7 @@ router
   .post("/newpoll", (req, res) => {
     // get values from input fields
     let optionsArr = req.body.options.map(option => {
-      return { option: option, value: 0 };
+      return { option: option };
     });
     let poll = {
       title: req.body.name,
@@ -47,9 +43,34 @@ router
     };
 
     // save the new poll to the db
-    Poll.create(poll).then(() => {
-      res.redirect("/polls");
+    Poll.create(poll).then(poll => {
+      res.redirect("/polls/" + poll.id);
     });
   });
+
+router.post("/polls/vote/:pollId", async (req, res) => {
+  // if user chooses to add another option, add it to the db
+  if (req.body["add-option"]) {
+    await Poll.update(
+      { _id: req.params.pollId },
+      {
+        $push: { options: { option: req.body["add-option"], value: 1 } }
+      }
+    );
+  }
+  // otherwise increment the counter for the option chosen
+  else {
+    await Poll.findOne({ _id: req.params.pollId }, (err, poll) => {
+      poll.options.forEach(item => {
+        if (item.option === req.body["select-vote"]) {
+          item.value += 1;
+        }
+      });
+      poll.save();
+    });
+  }
+
+  res.redirect("/polls/" + req.params.pollId);
+});
 
 module.exports = router;

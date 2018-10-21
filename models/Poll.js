@@ -8,7 +8,10 @@ const pollSchema = new Schema(
     options: [
       {
         option: String,
-        value: Number
+        value: {
+          type: Number,
+          default: 0
+        }
       }
     ]
   },

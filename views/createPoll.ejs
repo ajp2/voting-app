@@ -10,15 +10,16 @@
     <form class="card-body" action="/newpoll" method="POST">
       <div class="form-group">
         <label for="name">Name:</label>
-        <input type="text" class="form-control" name="name" placeholder="e.g. Favourite Colour">
+        <input type="text" class="form-control" name="name" placeholder="e.g. Favourite Colour" autocomplete="off"
+          required>
       </div>
       <br>
 
       <div class="form-group input-options">
         <label>Poll Options:</label>
-        <input type="text" class="form-control options" name="options" placeholder="Green">
+        <input type="text" class="form-control options" name="options" placeholder="Green" autocomplete="off" required>
         <br>
-        <input type="text" class="form-control options" name="options" placeholder="Blue">
+        <input type="text" class="form-control options" name="options" placeholder="Blue" autocomplete="off" required>
       </div>
       <a class="btn-more text-body" href="#">+</a>
       <br><br>
