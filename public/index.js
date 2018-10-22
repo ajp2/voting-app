@@ -13,10 +13,14 @@ $(document).ready(function () {
     const selectVal = $("#select-vote")
       .find(":selected")
       .val();
-    const numOfOptions = $("#select-vote").children("option").length;
+    const numOfOptions = $("#select-vote").children("option").length - 2;
     if (selectVal === "new") {
       $("#add-option").removeAttr("hidden");
-      numOfOptions >= 10 ? $("#add-option").prop("disabled", "true") : $("#add-option").prop("disabled", "false");
+      if (numOfOptions > 9) {
+        $("#add-option").attr("disabled", "disabled")
+      } else {
+        $("#add-option").removeAttr("disabled");
+      }
     } else {
       $("#add-option").attr("hidden", "true");
     }

@@ -1,15 +1,15 @@
 <% include ./header %>
 
 <div class="container">
-  <br>
-  <h1>These are the polls you have created</h1>
-  <p>Select a poll below to see the results and vote</p>
-  <hr>
-  <br>
-  <ul>
+  <div class="heading">
+    <h1>My Polls</h1>
+    <p>These are the polls you have created. Select a poll below to see the results and vote</p>
+  </div>
+
+  <ul class="list-group list-group-flush poll-list">
     <% polls.forEach(poll => { %>
-    <li>
-      <a href="/polls/<%= poll.id %>">
+    <li class="list-group-item">
+      <a href="/polls/<%= poll.id %>" class="text-secondary">
         <%= poll.title %></a>
     </li>
     <% }); %>

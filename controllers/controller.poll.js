@@ -6,7 +6,6 @@ exports.home = (req, res) => {
 
 exports.displayPolls = async (req, res) => {
   const allPolls = await Poll.find({}, "id title").sort({ createdAt: -1 });
-  console.log(req.user);
   res.render("home", { user: req.user, allPolls: allPolls });
 }
 
