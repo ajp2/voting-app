@@ -7,10 +7,27 @@
   height: 2.5rem;
 }
 
+.google-btn:hover {
+  text-decoration: none;
+  color: #fff;
+}
+
 .btn-more {
   font-size: 25px;
 }
 
 .btn-more:hover {
   text-decoration: none;
+}
+
+.card-vote {
+  margin-top: 3rem;
+}
+
+.vote {
+  padding-top: 1.5rem;
+}
+
+.card {
+  margin-bottom: 3rem;
 }

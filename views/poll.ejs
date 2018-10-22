@@ -7,49 +7,67 @@
   </h1>
   <hr>
   <br>
-  <div class="row">
-    <div class="col-sm-6">
-      <div class="card">
-        <form action="/polls/vote/<%= currentPoll.id %>" method="POST" class="card-body">
-          <div class="form-group vote">
-            <select class="custom-select" id="select-vote" name="select-vote" required>
-              <option value="" disabled selected hidden>Choose an option</option>
-              <% currentPoll.options.forEach(option => { %>
-              <option value="<%= option.option %>">
-                <%= option.option %>
-              </option>
-              <% }); %>
-              <% if (user) { %>
-              <option value="new">Choose another option...</option>
-              <% } %>
-            </select>
+  <div class="card">
+    <div class="row card-body">
+
+      <div class="col-md-6 card-vote">
+        <div class="card">
+          <form action="/polls/vote/<%= currentPoll.id %>" method="POST" class="card-body">
+            <div class="form-group vote">
+              <h6>Select an option to vote:</h6>
+              <select class="custom-select" id="select-vote" name="select-vote" required>
+                <option value="" disabled selected hidden>Choose an option</option>
+                <% currentPoll.options.forEach(option => { %>
+                <option value="<%= option.option %>">
+                  <%= option.option %>
+                </option>
+                <% }); %>
+                <% if (user) { %>
+                <option value="new">Choose another option...</option>
+                <% } %>
+              </select>
+              <br>
+            </div>
+            <input type="text" id="add-option" class="form-control options" name="add-option" placeholder="Add an option"
+              autocomplete="off" hidden>
             <br>
-          </div>
-          <input type="text" id="add-option" class="form-control options" name="add-option" placeholder="Add an option"
-            autocomplete="off" hidden>
-          <br>
-          <button class="btn btn-primary" type="submit">Vote</button>
-        </form>
+            <button class="btn btn-primary" type="submit">Vote</button>
+            <% if (user && user.id === currentPoll.user) { %>
+            <a class="btn btn-danger" href="/polls/<%= currentPoll.id %>/delete">Delete</a>
+            <% } %>
+          </form>
+        </div>
       </div>
-    </div>
-    <div class="col-sm-6">
-      <div class="card">
+
+      <div class="col-md-6">
         <div id="myChart"></div>
       </div>
+
     </div>
   </div>
 </div>
 
+<% const voteName = currentPoll.options.map(item => { %>
+<% return item.option; %>
+<% }) %>
+<% const voteNumber = currentPoll.options.map(item => { %>
+<% return item.value; %>
+<% }) %>
+
 <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
 
 <script>
+  const voteName = "<%- voteName %>".split(",");
+  const voteNumber = "<%- voteNumber %>".split(",");
+  const options = [];
+  voteName.forEach((item, idx) => {
+    options.push([item, Number(voteNumber[idx])]);
+  });
+
   zingchart.render({
     id: 'myChart',
     data: {
       "type": "bar",
-      "title": {
-        "text": "Change me please!"
-      },
       "plot": {
         "value-box": {
           "text": "%v"
@@ -58,23 +76,14 @@
           "text": "%v"
         }
       },
-      "scale-x": {
-        "values": [
-          "Mon",
-          "Wed",
-          "Fri"
-        ]
-      },
       "series": [
         {
-          "values": [3, 6, 9],
-          "text": "apples"
+          "values": options
         },
       ]
     }
   });
 </script>
-
 
 
 <% include ./footer %>
