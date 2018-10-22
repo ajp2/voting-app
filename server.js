@@ -1,10 +1,10 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const cookieSession = require("cookie-session");
 const passportSetup = require("./config/passportSetup");
 const errorHandler = require("./controllers/error");
-const keys = require("./config/keys");
 const pollRoutes = require("./routes/polls");
 const authRoutes = require("./routes/auth");
 
@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(
   cookieSession({
     maxAge: 24 * 60 * 60 * 1000,
-    keys: [keys.session.cookieKey]
+    keys: [process.env.COOKIE_KEY]
   })
 );
 
@@ -33,7 +33,7 @@ app.use(passport.session());
 // Connect to mongodb
 mongoose
   .connect(
-    keys.mongodb.dbURI,
+    process.env.MONGODB_URI,
     { useNewUrlParser: true }
   )
   .then(() => {
@@ -59,4 +59,5 @@ app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
+  console.log(process.env.DB_HOST);
 });

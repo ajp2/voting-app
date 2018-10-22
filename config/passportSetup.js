@@ -1,8 +1,6 @@
 const passport = require("passport");
-// const TwitterStrategy = require("passport-twitter");
 const GoogleStrategy = require("passport-google-oauth20");
 const User = require("../models/User");
-const keys = require("./keys");
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -17,8 +15,8 @@ passport.deserializeUser((id, done) => {
 passport.use(
   new GoogleStrategy(
     {
-      clientID: keys.google.clientID,
-      clientSecret: keys.google.clientSecret,
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: "/auth/google/redirect"
     },
     (accessToken, refreshToken, profile, done) => {
