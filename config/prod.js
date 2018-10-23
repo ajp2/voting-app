@@ -7,6 +7,6 @@ module.exports = {
     clientSecret: process.env.GOOGLE_CLIENT_SECRET
   },
   session: {
-    cookieKey: COOKIE_KEY
+    cookieKey: process.env.COOKIE_KEY
   }
 };
