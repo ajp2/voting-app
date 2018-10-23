@@ -1,6 +1,6 @@
 module.exports = {
   mongodb: {
-    dbURI: process.env.DB_HOST
+    dbURI: process.env.MONGODB_URI
   },
   google: {
     clientID: process.env.GOOGLE_CLIENT_ID,
