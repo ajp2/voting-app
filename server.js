@@ -7,6 +7,7 @@ const passportSetup = require("./config/passportSetup");
 const errorHandler = require("./controllers/error");
 const pollRoutes = require("./routes/polls");
 const authRoutes = require("./routes/auth");
+const keys = require("./config/keys");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -22,7 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(
   cookieSession({
     maxAge: 24 * 60 * 60 * 1000,
-    keys: [process.env.COOKIE_KEY]
+    keys: [keys.session.cookieKey]
   })
 );
 
