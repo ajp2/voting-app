@@ -7,6 +7,7 @@ const errorHandler = require("./controllers/error");
 const pollRoutes = require("./routes/polls");
 const authRoutes = require("./routes/auth");
 const keys = require("./config/keys");
+const favicon = require("serve-favicon");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -15,6 +16,7 @@ const port = process.env.PORT || 5000;
 app.set("view engine", "ejs");
 
 app.use(express.static("public"));
+app.use(favicon(__dirname + "/public/favicon.png"));
 
 // Parsing middleware
 app.use(express.urlencoded({ extended: false }));
@@ -32,10 +34,7 @@ app.use(passport.session());
 
 // Connect to mongodb
 mongoose
-  .connect(
-    process.env.MONGODB_URI,
-    { useNewUrlParser: true }
-  )
+  .connect(process.env.MONGODB_URI, { useNewUrlParser: true })
   .then(() => {
     console.log("Connected to the database");
   })
